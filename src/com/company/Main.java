@@ -1,5 +1,6 @@
 package com.company;
 
+import java.lang.reflect.Proxy;
 import java.util.Map;
 
 public class Main {
@@ -15,8 +16,16 @@ public class Main {
 //            e.printStackTrace();
 //            return;
 //        }
-        Converter converter = new Converter();
-        Map<String, Object> result = converter.convertToMap(object);
+        MyConverter myConverter = new MyConverter();
+        IConverter converterProxy = (IConverter) Proxy.newProxyInstance(
+                MyConverter.class.getClassLoader(),
+                MyConverter.class.getInterfaces(),
+                new MyInvocationHandler(myConverter)
+        );
+//        converterProxy.convertToMap(object);
+        Map<String, Object> result = converterProxy.convertToMap(object);
+        Object newObj = converterProxy.convertToObj(result);
+        System.out.println(newObj.toString());
         System.out.println(result);//output 0default
     }
 
