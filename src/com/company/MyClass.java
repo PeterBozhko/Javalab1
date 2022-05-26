@@ -1,9 +1,10 @@
 package com.company;
 
+import java.util.Objects;
+
 public class MyClass {
    private int number;
    private String name = "defaultd";
-   final String nationality = "russian";
    public MyClass(){
    }
     public MyClass(int number, String name) {
@@ -28,7 +29,19 @@ public class MyClass {
         return "MyClass{" +
                 "number=" + number +
                 ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyClass myClass = (MyClass) o;
+        return number == myClass.number && Objects.equals(name, myClass.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, name);
     }
 }
